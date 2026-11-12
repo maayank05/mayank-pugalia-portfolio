@@ -17,18 +17,41 @@
     }
   };
   paint();
+  // Swap the theme. With View Transitions the new theme opens as a circle from (x, y).
+  const toggleTheme = (x, y) => {
+    const swap = () => {
+      root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+      try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
+      paint();
+    };
+    if (!document.startViewTransition || still) {
+      root.classList.add('theming'); swap();
+      setTimeout(() => root.classList.remove('theming'), 500);
+      return;
+    }
+    const cx = x ?? window.innerWidth - 40; const cy = y ?? 200;
+    const r = Math.hypot(Math.max(cx, window.innerWidth - cx), Math.max(cy, window.innerHeight - cy));
+    const vt = document.startViewTransition(swap);
+    vt.ready.then(() => {
+      root.animate({ clipPath: [`circle(0px at ${cx}px ${cy}px)`, `circle(${r}px at ${cx}px ${cy}px)`] },
+        { duration: 750, easing: 'cubic-bezier(.65,0,.25,1)', pseudoElement: '::view-transition-new(root)' });
+    }).catch(() => {});
+  };
+  window.__toggleTheme = toggleTheme;
   if (cord) {
-    cord.addEventListener('click', () => {
+    cord.addEventListener('click', (e) => {
+      if (cord.dataset.physics) return; // motion.js drives the cord when it is loaded
       cord.classList.remove('is-pull'); void cord.offsetWidth; cord.classList.add('is-pull');
-      setTimeout(() => {
-        root.classList.add('theming');
-        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
-        try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
-        paint();
-        setTimeout(() => root.classList.remove('theming'), 500);
-      }, still ? 0 : 200);
+      const k = cord.querySelector('.cord__knob').getBoundingClientRect();
+      setTimeout(() => toggleTheme(k.left + k.width / 2, k.top + k.height / 2), still ? 0 : 200);
     });
   }
+
+  // Motion layer: smooth scroll, springs, reveals. Content shows even if it never loads.
+  const self = document.currentScript;
+  setTimeout(() => document.body.classList.add('is-ready'), 2500);
+  if (self && !still) import(new URL('motion.js', self.src).href).catch(() => document.body.classList.add('is-ready'));
+  else document.body.classList.add('is-ready');
 
   // Mobile menu closes after a choice or on Escape.
   document.querySelectorAll('.top__menu').forEach((menu) => {

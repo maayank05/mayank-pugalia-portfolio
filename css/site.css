@@ -322,3 +322,56 @@
 @media (max-width: 76rem) { .cord { right: 8px; } }
 @media (max-width: 60rem) { .cord { right: 108px; height: 112px; } }
 html.theming, html.theming * { transition: background-color .45s ease, color .45s ease, border-color .45s ease !important; }
+
+/* ---------- motion layer (js/motion.js) ---------- */
+/* header slides away while reading down, returns on the way up */
+.top { transition: background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out), translate .5s var(--ease-out); }
+.top.is-away { translate: 0 -100%; }
+
+/* hero entrance: lines rise out of masks, then the board, copy, buttons and portrait follow */
+.line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.line > span { display: inline-block; }
+.js .hero .line > span { transform: translateY(105%); transition: transform 1.1s var(--ease-out); }
+.js .hero [data-in] { opacity: 0; transform: translateY(22px); transition: opacity .9s var(--ease-out), transform 1s var(--ease-out); }
+.js .hero .hero__photo[data-in] { transform: translateY(40px) scale(.96); clip-path: inset(18% 0 0 0 round 999px 999px 28px 28px); transition: opacity 1.1s var(--ease-out), transform 1.4s var(--ease-out), clip-path 1.4s var(--ease-out); }
+.js .flap[data-in] { transform: perspective(800px) rotateX(-55deg) translateY(10px); transform-origin: 50% 0; }
+.is-ready .hero .line > span, .is-ready .hero [data-in] { transform: none; opacity: 1; }
+.is-ready .hero .hero__photo[data-in] { clip-path: inset(0 0 0 0 round 999px 999px 28px 28px); }
+
+/* headings: words rise one after another when they enter the screen */
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
+.w > span { display: inline-block; transform: translateY(108%); transition: transform 1s var(--ease-out); transition-delay: calc(var(--i, 0) * 45ms); }
+.split.in .w > span, .w.in > span { transform: none; }
+
+/* spring-driven elements: JS writes the transform, CSS stays out of the way */
+.spring { will-change: transform; transition: none !important; }
+.js-tilt .folder:hover, .js-tilt .folder:focus-visible { transform: none; }
+.js-tilt .folder { transform-style: preserve-3d; }
+
+/* the portrait paints into colour under the cursor */
+.hero__photo .paint { position: absolute; inset: 12px; width: calc(100% - 24px); height: calc(100% - 24px); border-radius: 999px 999px 18px 18px; pointer-events: none; }
+.hero__photo { cursor: crosshair; }
+.hero__hint { position: absolute; left: 50%; bottom: -34px; translate: -50% 0; font-size: var(--text-xs); color: var(--color-faint); white-space: nowrap; transition: opacity .6s var(--ease-out); }
+.hero__photo.is-painted .hero__hint { opacity: 0; }
+
+/* a label that trails the cursor over work you can open */
+.cursor-tag { position: fixed; left: 0; top: 0; z-index: var(--z-tooltip); display: grid; place-items: center; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: var(--color-ink); color: var(--color-paper); font-size: var(--text-sm); font-weight: 600; pointer-events: none; transform: scale(0); will-change: transform; }
+
+/* the cord: stretched by drag, swung by springs */
+.cord { touch-action: none; transform: translate3d(0, var(--pull, 0px), 0) rotate(var(--ang, 0deg)); }
+.cord[data-physics] { animation: none !important; cursor: grab; }
+.cord.is-dragging { cursor: grabbing; }
+.cord__rope { top: calc(-1 * var(--pull, 0px)); }
+.cord__hint { position: absolute; right: 30px; bottom: 6px; white-space: nowrap; font-size: var(--text-xs); color: var(--color-faint); opacity: 0; transform: translateX(6px); transition: opacity .3s, transform .3s var(--ease-out); pointer-events: none; }
+.cord:hover .cord__hint { opacity: 1; transform: none; }
+
+/* theme change: one circular reveal from the cord instead of a crossfade */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+.cord { view-transition-name: cord; }
+
+/* staggered groups */
+.js .folders .rv, .js .cards .rv, .js .ledger .rv { transition-delay: calc(var(--i, 0) * 90ms); }
+@media (prefers-reduced-motion: reduce) {
+  .js .hero .line > span, .js .hero [data-in], .w > span { transform: none !important; opacity: 1 !important; clip-path: none !important; }
+}
