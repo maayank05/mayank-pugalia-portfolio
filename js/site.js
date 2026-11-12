@@ -4,6 +4,32 @@
   root.classList.add('js');
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Theme: dark by default, the pull cord switches and remembers the choice.
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const cord = document.querySelector('.cord');
+  const paint = () => {
+    const dark = root.dataset.theme !== 'light';
+    if (meta) meta.content = dark ? '#161414' : '#E8E4E0';
+    if (cord) {
+      cord.setAttribute('aria-pressed', String(!dark));
+      cord.setAttribute('aria-label', dark ? 'Pull for light theme' : 'Pull for dark theme');
+      cord.title = cord.getAttribute('aria-label');
+    }
+  };
+  paint();
+  if (cord) {
+    cord.addEventListener('click', () => {
+      cord.classList.remove('is-pull'); void cord.offsetWidth; cord.classList.add('is-pull');
+      setTimeout(() => {
+        root.classList.add('theming');
+        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+        try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
+        paint();
+        setTimeout(() => root.classList.remove('theming'), 500);
+      }, still ? 0 : 200);
+    });
+  }
+
   // Mobile menu closes after a choice or on Escape.
   document.querySelectorAll('.top__menu').forEach((menu) => {
     menu.addEventListener('click', (e) => { if (e.target.closest('a')) menu.removeAttribute('open'); });

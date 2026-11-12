@@ -28,4 +28,24 @@
   --radius-card: 22px; --radius-chip: 999px; --radius-pill: 999px; --rule-hair: 1px;
   --shadow-card: 0 1px 0 rgba(255,255,255,.6) inset, 0 24px 48px -28px rgba(26,24,24,.35);
   --tracking-display: -0.035em; --display-weight: 650;
+
+  /* theme-dependent details */
+  --line: rgba(26,24,24,.16); --halo: rgba(26,24,24,.1);
+  --wash-a: rgba(150,170,120,.32); --wash-b: rgba(130,150,200,.30);
+  --flap-a: #2B2727; --flap-b: #1F1C1C; --flap-ink: #F1EEEB; --flap-seam: #0F0D0D; --flap-stack: #141212; --flap-stack-2: #2B2727; --flap-count: #8E8780;
+  --night-bg: #1A1818; --night-edge: transparent;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: #161414; --color-paper-2: #211E1E; --color-paper-3: #2B2727;
+  --color-ink: #EAE6E2; --color-ink-2: #C8C2BD; --color-muted: #9C9494; --color-faint: #6F6868;
+  --color-rule: #2F2B2B; --color-rule-2: #4A4444;
+  --color-accent-soft: #3A3232; --color-focus: #EAE6E2;
+  --color-ok: #8CC685; --color-ok-soft: #22301F;
+  --shadow-card: 0 1px 0 rgba(255,255,255,.04) inset, 0 24px 48px -28px rgba(0,0,0,.8);
+  --line: rgba(234,230,226,.14); --halo: rgba(234,230,226,.12);
+  --wash-a: rgba(120,150,95,.16); --wash-b: rgba(100,125,185,.16);
+  --flap-a: #F4F1EE; --flap-b: #E6E1DC; --flap-ink: #1A1818; --flap-seam: #BDB5AE; --flap-stack: #CFC8C1; --flap-stack-2: #0B0A0A; --flap-count: #8F8787;
+  --night-bg: #0D0C0C; --night-edge: #2F2B2B;
 }

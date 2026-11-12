@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://mayank-pugalia-portfolio.vercel.app/blog/TEMPLATE.html">
 <meta property="og:image" content="https://mayank-pugalia-portfolio.vercel.app/assets/meridian/overview.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#E8E4E0">
+<meta name="theme-color" content="#161414">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/site.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(){var r=document.documentElement,t;try{t=localStorage.getItem('theme')}catch(e){}r.dataset.theme=t==='light'?'light':'dark';r.classList.add('js')})()</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -65,18 +65,30 @@
 
 <footer class="night" id="contact" aria-labelledby="contact-h">
   <div class="container">
-    <p class="eyebrow"><span class="live" aria-hidden="true"></span> Open to new roles</p>
-    <h2 id="contact-h">Need numbers that make sense? <span class="dim">Let's talk.</span></h2>
-    <p class="night__lead">I'm looking for data analyst and planning roles. Email is the fastest way to reach me.</p>
-    <div class="actions">
-      <a class="btn btn--primary" href="mailto:mayankpugalia06@gmail.com">Email me <span class="btn__go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
-      <a class="btn" href="../assets/resume.pdf" download>Download resume</a>
+    <div class="reach">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-h">Hiring for analytics <span class="dim">or planning?</span></h2>
+        <p class="night__lead">Email is the fastest way to reach me.</p>
+        <div class="actions">
+          <a class="btn btn--primary" href="mailto:mayankpugalia06@gmail.com">Email me <span class="btn__go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="btn" href="../assets/resume.pdf" download>Download resume</a>
+        </div>
+      </div>
+      <dl>
+        <div><dt>Email</dt><dd><a href="mailto:mayankpugalia06@gmail.com">mayankpugalia06@gmail.com</a></dd></div>
+        <div><dt>LinkedIn</dt><dd><a href="https://linkedin.com/in/mayankpugalia05" rel="me noopener" target="_blank">mayankpugalia05</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/maayank05" rel="me noopener" target="_blank">maayank05</a></dd></div>
+        <div><dt>LeetCode</dt><dd><a href="https://leetcode.com/u/maayank05/" rel="me noopener" target="_blank">maayank05</a></dd></div>
+        <div><dt>Resume</dt><dd><a href="../assets/resume.pdf" download>Resume, PDF</a></dd></div>
+        <div><dt>Based in</dt><dd>Jaipur, India</dd></div>
+      </dl>
     </div>
     <div class="foot">
       <div class="foot__work">
         <h3>Work</h3>
         <ul>
-          <li><a href="../projects/meridian.html">MERIDIAN</a></li>
+          <li><a href="../projects/meridian.html">Meridian</a></li>
           <li><a href="../projects/enterprise-fpa.html">Enterprise FP&amp;A</a></li>
           <li><a href="../projects/crm-arena.html">CRM Arena</a></li>
           <li><a href="../projects/incentive-compensation.html">Incentive compensation</a></li>
@@ -85,25 +97,24 @@
       <div>
         <h3>Navigate</h3>
         <ul>
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../index.html#story">My story</a></li>
+          <li><a href="../index.html#work">Work</a></li>
+          <li><a href="../index.html#story">Experience</a></li>
           <li><a href="../blog.html">Blog</a></li>
         </ul>
       </div>
       <div>
         <h3>Elsewhere</h3>
         <ul>
-          <li><a href="https://linkedin.com/in/mayankpugalia05" rel="me noopener" target="_blank">LinkedIn</a></li>
           <li><a href="https://github.com/maayank05" rel="me noopener" target="_blank">GitHub</a></li>
-          <li><a href="mailto:mayankpugalia06@gmail.com">Email</a></li>
+          <li><a href="https://linkedin.com/in/mayankpugalia05" rel="me noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="https://leetcode.com/u/maayank05/" rel="me noopener" target="_blank">LeetCode</a></li>
         </ul>
       </div>
       <div>
-        <h3>Status</h3>
+        <h3>Jaipur</h3>
         <ul>
-          <li>Open to analyst roles</li>
-          <li>Jaipur, India</li>
           <li>Local time <span data-clock>--:--</span></li>
+          <li><span data-date></span></li>
         </ul>
       </div>
     </div>
@@ -114,6 +125,7 @@
   </div>
 </footer>
 <a class="totop" href="#main" aria-label="Back to top"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg></a>
+<button class="cord" type="button" aria-label="Pull for light theme" aria-pressed="false"><span class="cord__rope"></span><span class="cord__knob"></span></button>
 <script src="../js/site.js" defer></script>
 </body>
 </html>
