@@ -96,7 +96,7 @@ const splitWords = (el) => {
     });
   };
   walk(el);
-  el.classList.add('split');
+  el.classList.add('wsplit');
 };
 const heads = [...document.querySelectorAll('main h2:not(.visually-hidden), .statement, .night h2, .doc-head h1, .prose h1, .plain h1')];
 heads.forEach(splitWords);
@@ -155,24 +155,35 @@ if (fine) {
     a.addEventListener('pointerleave', () => { y.target = 0; kick(); });
   });
 
-  // folders tilt in 3D toward the pointer and lift
+  // folders lean toward the pointer while their cover swings open (the swing itself is CSS)
   body.classList.add('js-tilt');
   document.querySelectorAll('.folder').forEach((f) => {
     const rx = new Spring(0, 170, 16); const ry = new Spring(0, 170, 16); const lift = new Spring(0, 200, 18);
-    const sheet = f.querySelector('.folder__sheet'); const sh = new Spring(0, 180, 14);
-    f.classList.add('spring'); if (sheet) sheet.classList.add('spring');
-    const kick = animate([rx, ry, lift, sh], () => {
-      f.style.transform = `perspective(900px) translateY(${lift.v}px) rotateX(${rx.v}deg) rotateY(${ry.v}deg)`;
-      if (sheet) sheet.style.transform = `translateY(${sh.v}px) rotate(${sh.v * 0.05}deg)`;
+    f.classList.add('spring');
+    const kick = animate([rx, ry, lift], () => {
+      f.style.transform = `translateY(${lift.v}px) rotateX(${rx.v}deg) rotateY(${ry.v}deg)`;
     });
     f.addEventListener('pointermove', (e) => {
       const r = f.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5; const py = (e.clientY - r.top) / r.height - 0.5;
-      ry.target = px * 10; rx.target = -py * 8; lift.target = -12; sh.target = -34; kick();
+      ry.target = px * 6; rx.target = -py * 5; lift.target = -10; kick();
     });
-    f.addEventListener('pointerleave', () => { rx.target = 0; ry.target = 0; lift.target = 0; sh.target = 0; kick(); });
-    f.dataset.cursor = 'Open';
+    f.addEventListener('pointerleave', () => { rx.target = 0; ry.target = 0; lift.target = 0; kick(); });
   });
+
+  // the portrait frame tilts with depth
+  const frame3d = document.querySelector('.hero__photo');
+  if (frame3d) {
+    const rx = new Spring(0, 140, 16); const ry = new Spring(0, 140, 16);
+    frame3d.classList.add('tilt3d');
+    setTimeout(() => frame3d.classList.add('tilt-on'), 2000);
+    const kick = animate([rx, ry], () => { frame3d.style.setProperty('--rx', `${rx.v}deg`); frame3d.style.setProperty('--ry', `${ry.v}deg`); });
+    frame3d.addEventListener('pointermove', (e) => {
+      const r = frame3d.getBoundingClientRect();
+      ry.target = ((e.clientX - r.left) / r.width - 0.5) * 9; rx.target = -((e.clientY - r.top) / r.height - 0.5) * 7; kick();
+    });
+    frame3d.addEventListener('pointerleave', () => { rx.target = 0; ry.target = 0; kick(); });
+  }
 
   // cards lean slightly
   document.querySelectorAll('.card, .next, .posts a, .lab-band').forEach((c) => {

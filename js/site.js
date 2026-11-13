@@ -96,13 +96,28 @@
     const words = [...flap.querySelectorAll('.flap__word')];
     const count = flap.querySelector('.flap__count');
     let i = 0;
-    const show = (n) => {
-      words.forEach((w, k) => { w.classList.toggle('is-on', k === n); w.classList.remove('is-flip'); });
-      if (!still) { void words[n].offsetWidth; words[n].classList.add('is-flip'); }
-      if (count) count.textContent = `${String(n + 1).padStart(2, '0')} / ${String(words.length).padStart(2, '0')}`;
+    const setCount = (n) => { if (count) count.textContent = `${String(n + 1).padStart(2, '0')} / ${String(words.length).padStart(2, '0')}`; };
+    // A leaf is a copy of the board showing one word, clipped to its top or bottom half.
+    const leaf = (word, half) => {
+      const el = document.createElement('span');
+      el.className = `flap__leaf flap__leaf--${half}`; el.setAttribute('aria-hidden', 'true');
+      words.forEach((w, k) => { const c = w.cloneNode(true); c.classList.toggle('is-on', k === word); el.appendChild(c); });
+      flap.appendChild(el); return el;
     };
-    show(0);
-    if (!still && words.length > 1) setInterval(() => { i = (i + 1) % words.length; show(i); }, 2600);
+    // Split-flap: the old top half falls forward, then the new bottom half lands.
+    const flipTo = (from, to) => {
+      words.forEach((w, k) => w.classList.toggle('is-on', k === to));
+      setCount(to);
+      if (still) return;
+      const topOld = leaf(from, 'top'); const botOld = leaf(from, 'bottom');
+      topOld.classList.add('is-falling');
+      setTimeout(() => {
+        const botNew = leaf(to, 'bottom'); botNew.classList.add('is-landing');
+        setTimeout(() => { topOld.remove(); botOld.remove(); botNew.remove(); }, 340);
+      }, 280);
+    };
+    words.forEach((w, k) => w.classList.toggle('is-on', k === 0)); setCount(0);
+    if (!still && words.length > 1) setInterval(() => { const from = i; i = (i + 1) % words.length; flipTo(from, i); }, 2800);
   }
 
   // Story: the entry nearest the middle of the screen sets the year, range and pager.
